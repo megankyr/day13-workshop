@@ -4,26 +4,27 @@ import java.time.LocalDate;
 import java.time.Period;
 
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public class User {
-    @NotNull (message="Name cannot be null")
+    @NotBlank (message="Name must be provided")
     @Size (min=3, max=64, message="Name must be between 3 and 64 characters")
     private String name;
 
-    @Email (message= "Must be a valid email")
-    @NotNull (message="Email cannot be null")
+    @NotNull (message="Email must be provided")
+    @Email (message="Must be a valid email")
     private String email;
 
-    @Pattern(regexp = "[0-9]{7}", message = "Phone Number must contain at least 7 digits")
-    @NotNull (message= "Phone Number cannot be null")
+    @NotBlank (message="Phone Number must be provided")
+    @Pattern(regexp="[0-9]{7}", message="Phone Number must contain at least 7 digits")
     private String phoneno;
 
-    @Past (message = "Date of Birth must be in the past")
-    @NotNull (message ="Date of Birth cannot be null")
+    @NotNull (message="Date of Birth must be provided")
+    @Past (message="Date of Birth must be in the past")
     private LocalDate dob;
 
     public String getName() {

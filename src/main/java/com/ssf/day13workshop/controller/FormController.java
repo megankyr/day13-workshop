@@ -34,6 +34,9 @@ public class FormController {
             binding.addError(err);
             return "contact";
         }
-        return "contact-created";
+
+        else {
+            return "contact-created";
+        }
     }
 }
