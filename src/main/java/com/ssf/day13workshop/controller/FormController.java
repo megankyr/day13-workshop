@@ -36,6 +36,7 @@ public class FormController {
         }
 
         else {
+            
             return "contact-created";
         }
     }
