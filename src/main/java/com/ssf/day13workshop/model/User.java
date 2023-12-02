@@ -2,6 +2,7 @@ package com.ssf.day13workshop.model;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Random;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -11,21 +12,43 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public class User {
-    @NotBlank (message="Name must be provided")
-    @Size (min=3, max=64, message="Name must be between 3 and 64 characters")
+    @NotBlank(message = "Name must be provided")
+    @Size(min = 3, max = 64, message = "Name must be between 3 and 64 characters")
     private String name;
 
-    @NotNull (message="Email must be provided")
-    @Email (message="Must be a valid email")
+    @NotNull(message = "Email must be provided")
+    @Email(message = "Must be a valid email")
     private String email;
 
-    @NotBlank (message="Phone Number must be provided")
-    @Pattern(regexp="[0-9]{7}", message="Phone Number must contain at least 7 digits")
+    @NotBlank(message = "Phone Number must be provided")
+    @Pattern(regexp = "[0-9]{7}", message = "Phone Number must contain at least 7 digits")
     private String phoneno;
 
-    @NotNull (message="Date of Birth must be provided")
-    @Past (message="Date of Birth must be in the past")
+    @NotNull(message = "Date of Birth must be provided")
+    @Past(message = "Date of Birth must be in the past")
     private LocalDate dob;
+
+    public User() {
+        generateID(8);
+    }
+
+    private String id;
+
+    private void generateID(int i) {
+        Random random = new Random();
+        StringBuilder stringbuilder = new StringBuilder();
+
+        while (stringbuilder.length() < i) {
+            stringbuilder.append(Integer.toHexString(random.nextInt()));
+
+        }
+        
+        this.id = stringbuilder.toString().substring(0, i);
+    }
+
+        public String getId() {
+        return id;
+    }
 
     public String getName() {
         return name;
@@ -59,14 +82,14 @@ public class User {
         this.dob = dob;
     }
 
-    public boolean isValidAge(){
-        if (dob == null){
+    public boolean isValidAge() {
+        if (dob == null) {
             return false;
         }
 
         LocalDate now = LocalDate.now();
         int age = Period.between(dob, now).getYears();
-         return age >=10 & age <=100;
+        return age >= 10 & age <= 100;
     }
 
 }

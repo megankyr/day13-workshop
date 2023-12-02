@@ -35,8 +35,7 @@ public class FormController {
             return "contact";
         }
 
-        else {
-            
+        else {       
             return "contact-created";
         }
     }
