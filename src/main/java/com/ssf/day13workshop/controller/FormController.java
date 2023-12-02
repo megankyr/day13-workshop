@@ -1,5 +1,7 @@
 package com.ssf.day13workshop.controller;
 
+import java.io.IOException;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -9,7 +11,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.ssf.day13workshop.Day13WorkshopApplication;
 import com.ssf.day13workshop.model.User;
+import com.ssf.day13workshop.service.Contacts;
 
 import jakarta.validation.Valid;
 
@@ -35,8 +39,14 @@ public class FormController {
             return "contact";
         }
 
-        else {       
-            return "contact-created";
+        Contacts contacts = new Contacts();
+        try {
+            String addressBookDirPath = Day13WorkshopApplication.getAddressBookDirPath();
+            contacts.save(user, null, addressBookDirPath);
+            System.out.println("Contact saved in: " + addressBookDirPath);
+        } catch (IOException e){
+            return "error";
         }
+        return "contact-created";
     }
 }

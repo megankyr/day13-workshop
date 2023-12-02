@@ -11,8 +11,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class Day13WorkshopApplication {
 
+	private static String addressBookDirPath;
+
 	public static void main(String[] args) {
-		String addressBookDirPath;
 		if (args.length == 2 && args[0].equals("--dataDir")) {
 			addressBookDirPath = args[1];
 
@@ -20,6 +21,7 @@ public class Day13WorkshopApplication {
 			if (!Files.exists(addressBookDir)) {
 				try {
 					Files.createDirectories(addressBookDir);
+					System.out.println("File directory created: " + addressBookDir);
 				} catch (IOException e) {
 					System.err.println("Error in creating directory");
 				}
@@ -32,5 +34,9 @@ public class Day13WorkshopApplication {
 
 		SpringApplication.run(Day13WorkshopApplication.class, args);
 
+	}
+
+	public static String getAddressBookDirPath() {
+		return addressBookDirPath;
 	}
 }
