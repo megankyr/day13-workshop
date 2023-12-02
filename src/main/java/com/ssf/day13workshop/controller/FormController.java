@@ -3,6 +3,7 @@ package com.ssf.day13workshop.controller;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -72,4 +73,13 @@ public class FormController {
         }
 
     }
-}
+
+    @GetMapping("/contact/list")
+    
+    public List<String> generateLinks(){
+        List<String> links = new ArrayList<>();
+        for 
+    }
+        
+
+    }
