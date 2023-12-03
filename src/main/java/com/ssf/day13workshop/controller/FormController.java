@@ -3,7 +3,6 @@ package com.ssf.day13workshop.controller;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -25,6 +24,8 @@ import jakarta.validation.Valid;
 @Controller
 @RequestMapping
 public class FormController {
+    Contacts contacts = new Contacts();
+    String addressBookDirPath = Day13WorkshopApplication.getAddressBookDirPath();
 
     @GetMapping("/")
     public String showForm(Model model) {
@@ -43,8 +44,6 @@ public class FormController {
             binding.addError(err);
             return "contact";
         }
-
-        Contacts contacts = new Contacts();
         try {
             String addressBookDirPath = Day13WorkshopApplication.getAddressBookDirPath();
             contacts.save(user, null, addressBookDirPath);
@@ -57,17 +56,16 @@ public class FormController {
 
     @GetMapping("/contact/{id}")
     public String loadID(@PathVariable String id, Model model) {
-        String addressBookDirPath = Day13WorkshopApplication.getAddressBookDirPath();
         String filePath = addressBookDirPath + "/" + id + ".txt";
-        
-        if (Files.exists(Paths.get(filePath))){
-        try {
-            List<String> userFields = Files.readAllLines(Paths.get(filePath));
-            model.addAttribute("userFields", userFields);
-            return "contact-by-id";
-        } catch (IOException e){
-            return "error";
-        }
+
+        if (Files.exists(Paths.get(filePath))) {
+            try {
+                List<String> userFields = Files.readAllLines(Paths.get(filePath));
+                model.addAttribute("userFields", userFields);
+                return "contact-by-id";
+            } catch (IOException e) {
+                return "error";
+            }
         } else {
             return "not-found";
         }
@@ -75,11 +73,11 @@ public class FormController {
     }
 
     @GetMapping("/contact/list")
-    
-    public List<String> generateLinks(){
-        List<String> links = new ArrayList<>();
-        for 
+    public String loadLinks(Model model) throws IOException {
+        List<String> filePaths = contacts.generateFilePaths(Paths.get(addressBookDirPath));
+        List<String> links = contacts.generateLinks(filePaths);
+        model.addAttribute("links", links);
+        return "contacts";
     }
-        
 
-    }
+}
