@@ -7,6 +7,7 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,30 +42,24 @@ public class Contacts {
 
     }
 
-    public List<String> generateFilePaths(Path addressBookDir) throws IOException {
-        List<String> filePaths = new ArrayList<>();
-        DirectoryStream<Path> stream = Files.newDirectoryStream(addressBookDir);
-        for (Path filepath : stream) {
-            filePaths.add(filepath.toString());
-        }
-        return filePaths;
+    public List<User> loadUsers() throws IOException {
+        List<User> users = new ArrayList<>();
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(addressBookDirPath))) {
+            for (Path filePath : stream) {
+                List<String> fields = Files.readAllLines(filePath);
+                String id = filePath.getFileName().toString().substring(0, 8);
+                String name = fields.get(0);
+                String email = fields.get(1);
+                String phoneno = fields.get(2);
+                String dobString = fields.get(3);
 
-    }
+                LocalDate dob = LocalDate.parse(dobString);
 
-    public List<String> generateLinks(List<String> filePaths){
-        List<String> links = new ArrayList<>();
-        for (String filePath : filePaths){
-            try {
-            Path path = Paths.get(filePath);
-            String name = Files.lines(path).findFirst().get();
-            String filename = path.getFileName().toString().substring(0, 8);
-            String link = String.format("<a href=\"/contact/%s\">%s</a>", filename, name);
-            links.add(link);
-            } catch (IOException e){
-                e.printStackTrace();
+                User user = new User(id, name, email, phoneno, dob);
+                users.add(user);
             }
         }
-        return links;
+        return users;
     }
 
 }

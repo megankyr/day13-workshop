@@ -1,8 +1,6 @@
 package com.ssf.day13workshop.controller;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -66,11 +64,14 @@ public class FormController {
     }
 
     @GetMapping("/contact/list")
-    public String loadLinks(Model model) throws IOException {
-        List<String> filePaths = contacts.generateFilePaths(Paths.get(addressBookDirPath));
-        List<String> links = contacts.generateLinks(filePaths);
-        model.addAttribute("links", links);
+    public String loadLinks(Model model) {
+        try {
+            List<User> users = contacts.loadUsers();
+        model.addAttribute("users", users);
         return "contacts";
+    } catch (IOException e){
+        return "error";
     }
 
+}
 }

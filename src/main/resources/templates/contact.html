@@ -9,20 +9,20 @@
     <form method="POST" data-th-action="@{/contact}" data-th-object="${user}">
         <label for="name">Name</label>
         <input type="text" data-th-field="*{name}">
-        <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+        <p th:errors="*{name}"></p>
         <br>
         <label for="name">Email</label>
         <input type="email" data-th-field="*{email}">
-        <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+        <p th:errors="*{email}"></p>
         <br>
         <label for="name">Phone Number</label>
         <input type="tel" data-th-field="*{phoneno}">
-        <p th:if="${#fields.hasErrors('phoneno')}" th:errors="*{phoneno}"></p>
+        <p th:errors="*{phoneno}"></p>
         </p>
         <br>
         <label for="name">Date of Birth</label>
         <input type="date" data-th-field="*{dob}">
-        <p th:if="${#fields.hasErrors('dob')}" th:errors="*{dob}"></p>
+        <p th:errors="*{dob}"></p>
         <br>
         <button type="submit">Submit</button>
     </form>

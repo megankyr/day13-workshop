@@ -7,8 +7,8 @@
 </head>
 <body>
     <h1>Contact List</h1>
-    <div th:each="link : ${links}">
-        <p th:text="${link}"></p>
+    <div th:each="user : ${users}">
+        <p><a th:href="'/contact/' + ${user.id}" th:utext="${user.name}"></a></p>
     </div>
 </body>
 </html>

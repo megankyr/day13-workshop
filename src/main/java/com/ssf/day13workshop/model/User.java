@@ -12,6 +12,9 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public class User {
+
+
+
     @NotBlank(message = "Name must be provided")
     @Size(min = 3, max = 64, message = "Name must be between 3 and 64 characters")
     private String name;
@@ -92,4 +95,12 @@ public class User {
         return age >= 10 & age <= 100;
     }
 
-}
+    public User(String id, String name, String email, String phoneno, LocalDate dob){
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.phoneno = phoneno;
+        this.dob = dob;
+    }
+
+    }
