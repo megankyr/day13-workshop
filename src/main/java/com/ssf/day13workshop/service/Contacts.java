@@ -9,13 +9,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.ui.Model;
 
+import com.ssf.day13workshop.Day13WorkshopApplication;
 import com.ssf.day13workshop.model.User;
 
 public class Contacts {
 
-    public void save(User user, Model model, String addressBookDirPath) throws IOException {
+    String addressBookDirPath = Day13WorkshopApplication.getAddressBookDirPath();
+
+    public void save(User user) throws IOException {
         String fileName = user.getId();
         PrintWriter printWriter = new PrintWriter(new FileWriter(addressBookDirPath + "/" + fileName + ".txt"));
 
@@ -26,6 +28,16 @@ public class Contacts {
 
         printWriter.flush();
         printWriter.close();
+
+    }
+
+    public List<String> loadUserById(String id) throws IOException {
+        String filePath = addressBookDirPath + "/" + id + ".txt";
+        if (Files.exists(Paths.get(filePath))){
+            return Files.readAllLines(Paths.get(filePath));
+        } else {
+            throw new IOException("File not found");
+        }
 
     }
 

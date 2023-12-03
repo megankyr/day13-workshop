@@ -45,8 +45,7 @@ public class FormController {
             return "contact";
         }
         try {
-            String addressBookDirPath = Day13WorkshopApplication.getAddressBookDirPath();
-            contacts.save(user, null, addressBookDirPath);
+            contacts.save(user);
             System.out.println("Contact saved in: " + addressBookDirPath);
         } catch (IOException e) {
             return "error";
@@ -56,17 +55,11 @@ public class FormController {
 
     @GetMapping("/contact/{id}")
     public String loadID(@PathVariable String id, Model model) {
-        String filePath = addressBookDirPath + "/" + id + ".txt";
-
-        if (Files.exists(Paths.get(filePath))) {
-            try {
-                List<String> userFields = Files.readAllLines(Paths.get(filePath));
-                model.addAttribute("userFields", userFields);
-                return "contact-by-id";
-            } catch (IOException e) {
-                return "error";
-            }
-        } else {
+        try {
+            List<String> userFields = contacts.loadUserById(id);
+            model.addAttribute("userFields", userFields);
+            return "contact-by-id";
+        } catch (IOException e){
             return "not-found";
         }
 
