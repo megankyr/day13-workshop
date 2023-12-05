@@ -3,6 +3,7 @@ package com.ssf.day13workshop.controller;
 import java.io.IOException;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,9 +22,10 @@ import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping
+
 public class FormController {
-    Contacts contacts = new Contacts();
-    String addressBookDirPath = Day13WorkshopApplication.getAddressBookDirPath();
+    @Autowired
+    Contacts contacts;
 
     @GetMapping("/")
     public String showForm(Model model) {
@@ -44,7 +46,7 @@ public class FormController {
         }
         try {
             contacts.save(user);
-            System.out.println("Contact saved in: " + addressBookDirPath);
+            System.out.println("Contact saved in: " + Day13WorkshopApplication.getAddressBookDirPath());
         } catch (IOException e) {
             return "error";
         }
@@ -57,7 +59,7 @@ public class FormController {
             List<String> userFields = contacts.loadUserById(id);
             model.addAttribute("userFields", userFields);
             return "contact-by-id";
-        } catch (IOException e){
+        } catch (IOException e) {
             return "not-found";
         }
 
@@ -67,11 +69,11 @@ public class FormController {
     public String loadLinks(Model model) {
         try {
             List<User> users = contacts.loadUsers();
-        model.addAttribute("users", users);
-        return "contacts";
-    } catch (IOException e){
-        return "error";
-    }
+            model.addAttribute("users", users);
+            return "contacts";
+        } catch (IOException e) {
+            return "error";
+        }
 
-}
+    }
 }

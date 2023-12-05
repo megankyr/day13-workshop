@@ -11,9 +11,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.ssf.day13workshop.Day13WorkshopApplication;
 import com.ssf.day13workshop.model.User;
 
+@Service
 public class Contacts {
 
     String addressBookDirPath = Day13WorkshopApplication.getAddressBookDirPath();
